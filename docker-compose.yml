@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  sftp:
+    image: atmoz/sftp
+    ports:
+      - "2222:22"
+    volumes:
+      - ./sftp-in:/home/foo/upload
+    command: foo:pass:1001
+    user: "${UID}:${GID}"
+
+  zookeeper:
+    hostname: myzookeeper
+    container_name: zookeeper_container
+    image: 'bitnami/zookeeper:3.7.0'  # latest image as of 2021-11-08.
+    environment:
+        - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: always
+
+  nifi:
+    image: apache/nifi:1.20.0
+    container_name: airflow_nifi
+    ports:
+        - 8082:8080
+        - 8443:8443
+        - 8001:8000
+    volumes:
+        - ./nifi-out:/opt/nifi/nifi-current/fileprocessor
+        - ./images/nifi/logs:/opt/nifi/nifi-current/logs
+        - ./images/nifi/jdbc:/opt/nifi/nifi-current/jdbc
+          #- ./images/nifi/conf:/opt/nifi/nifi-current/conf                    
+          #- ./images/nifi/nifi-current/database_repository:/opt/nifi/nifi-current/database_repository
+          #- ./images/nifi/nifi-current/flowfile_repository:/opt/nifi/nifi-current/flowfile_repository
+          #- nifi-content_repository:/opt/nifi/nifi-current/content_repository
+          #- nifi-provenance_repository:/opt/nifi/nifi-current/provenance_repository
+          #- ./images/nifi/conf:/opt/nifi/nifi-current/conf
+          #- ./images/nifi/nifi-current/state:/opt/nifi/nifi-current/state
+          #- ./images/nifi/credentials:/opt/nifi/nifi-current/credentials
+    environment:
+        - NIFI_WEB_HTTP_PORT=8080
+        - NIFI_CLUSTER_IS_NODE=true
+        - NIFI_CLUSTER_NODE_PROTOCOL_PORT=8082
+        - NIFI_ZK_CONNECT_STRING=myzookeeper:2181
+        - NIFI_ELECTION_MAX_WAIT=30 sec
+        - NIFI_SENSITIVE_PROPS_KEY='12345678901234567890A'
+    restart: on-failure
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://mynifi:8080/nifi/"]
+        interval: 30s
+        timeout: 20s
+        retries: 3
