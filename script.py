@@ -2,7 +2,7 @@ import requests
 import json
 
 nifiurl = "http://localhost:8082/nifi-api"
-template_name = "fileclonertemplate"
+template_name = "filecloner"
 template_filename = f"./{template_name}.xml"
 
 def fetch_root_process_group_id():
