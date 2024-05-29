@@ -263,24 +263,27 @@
                         <properties>
                             <entry>
 <key>Hostname</key>
-<value>sftp</value>
+<value>#{sftp.host}</value>
                             </entry>
                             <entry>
 <key>Port</key>
-<value>22</value>
+<value>#{sftp.port}</value>
                             </entry>
                             <entry>
 <key>Username</key>
-<value>foo</value>
+<value>#{sftp.user}</value>
                             </entry>
                             <entry>
 <key>Password</key>
+<value>#{sftp.pass}</value>
                             </entry>
                             <entry>
 <key>Private Key Path</key>
+<value>#{sftp.sshkey.path}</value>
                             </entry>
                             <entry>
 <key>Private Key Passphrase</key>
+<value>#{sftp.sshkey.passphrase}</value>
                             </entry>
                             <entry>
 <key>Remote Path</key>
@@ -392,7 +395,7 @@
                         <name>success</name>
                         <retry>false</retry>
                     </relationships>
-                    <state>RUNNING</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.GetSFTP</type>
                 </processors>
@@ -514,7 +517,7 @@
                         <name>success</name>
                         <retry>false</retry>
                     </relationships>
-                    <state>RUNNING</state>
+                    <state>STOPPED</state>
                     <style/>
                     <type>org.apache.nifi.processors.standard.PutFile</type>
                 </processors>
@@ -528,5 +531,5 @@
             <variables/>
         </processGroups>
     </snippet>
-    <timestamp>05/28/2024 16:24:33 UTC</timestamp>
+    <timestamp>05/29/2024 01:06:01 UTC</timestamp>
 </template>
