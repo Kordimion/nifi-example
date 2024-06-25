@@ -29,7 +29,25 @@ at this point, everything should work:
 
 this is just an example how you might setup this. You can replace that with your own template from nifi.
 
-
 extra:
 - look in `localhost:8082/nifi` to see your workflow.
+
+### How to mount smb from windows share from linux
+
+I had to put files to windows share from linux, and this is how i did it:
+- install samba and all tools for it (smbconfig and cift-tools)
+- create samba config at `/etc/samba/smb.conf`. search for default one and add those fields to it:
+```
+[global]
+
+client use spnego = no
+client NTLMv2 auth = no
+
+# workgroup = NT-Domain-Name or Workgroup-Name, eg: MIDEARTH
+   workgroup = HOMEST
+   client max protocol = NT1
+```
+- edit `/etc/fstab` file, add your mounted folder to it:
+``
+- `sudo mount -a`
 

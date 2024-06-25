@@ -6,9 +6,12 @@ services:
     ports:
       - "2222:22"
     volumes:
-      - ./.ssh/id_rsa:/etc/ssh/id_rsa
-      - ./sftp-in:/home/foo/upload
-    command: foo:pass:1001
+      # - ./.ssh/key:/etc/ssh/ssh_host_rsa_key:ro
+      # - ./.ssh/key:/etc/ssh/keys/ssh_host_rsa_key:ro
+      #- ./.ssh/key.pub:/etc/ssh/keys/ssh_host_rsa_key.pub:ro
+      - ./sftp-in:/home/kordy/upload
+      # - /home/kordy/homest/share/sftp-in:/home/foo/upload:ro
+    command: kordy:pass:1000
     user: "${UID}:${GID}"
 
   zookeeper:
@@ -27,8 +30,9 @@ services:
         - 8443:8443
         - 8001:8000
     volumes:
-        - ./nifi-out:/opt/nifi/nifi-current/fileprocessor
-        - ./.ssh:/opt/nifi/nifi-current/ssh
+        # - ./nifi-out:/opt/nifi/nifi-current/fileprocessor
+        - /home/kordy/homest/share/nifi-out:/opt/nifi/nifi-current/fileprocessor
+        - ./.ssh/key:/opt/nifi/nifi-current/ssh/id_rsa
         - ./images/nifi/logs:/opt/nifi/nifi-current/logs
         - ./images/nifi/jdbc:/opt/nifi/nifi-current/jdbc
     environment:
