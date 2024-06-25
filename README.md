@@ -34,6 +34,8 @@ Extra:
 
 ### How to mount smb from windows share from linux
 
+Warning: configuring Samba requires a LOT of custom configuration. Everything in <> brackets should be replaced with your custom info. like 
+
 I had to put files to windows share from linux, and this is how i did it:
 - Install samba and all tools for it (smbconfig and cift-tools) [see arch wiki](https://wiki.archlinux.org/title/Samba)
 - Create samba config at `/etc/samba/smb.conf`. search for [default samba config](https://git.samba.org/samba.git/?p=samba.git;a=blob_plain;f=examples/smb.conf.default;hb=HEAD), paste it in and add those fields to it:
@@ -44,12 +46,12 @@ I had to put files to windows share from linux, and this is how i did it:
     client NTLMv2 auth = no
 
     # workgroup = NT-Domain-Name or Workgroup-Name, eg: MIDEARTH
-       workgroup = HOMEST
+       workgroup = <your-workgroup>
        client max protocol = NT1
     ```
 - Edit `/etc/fstab` file, add your mounted folder to it:
     ```
     //<samba-ip>/<samba-folder-path> <mounted-pos> cifs username=<user>,password=<password>,uid=<(echo $UID)>,file_mode=0777,dir_mode=0777 0 0
     ```
-    - `sudo mount -a`
+- `sudo mount -a` to persist changed /etc/fstab file
 
