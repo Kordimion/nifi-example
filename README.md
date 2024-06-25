@@ -35,7 +35,7 @@ Extra:
 ### How to mount smb from windows share from linux
 
 I had to put files to windows share from linux, and this is how i did it:
-- Install samba and all tools for it (smbconfig and cift-tools)
+- Install samba and all tools for it (smbconfig and cift-tools) [see arch wiki](https://wiki.archlinux.org/title/Samba)
 - Create samba config at `/etc/samba/smb.conf`. search for default one and add those fields to it:
     ```
     [global]
